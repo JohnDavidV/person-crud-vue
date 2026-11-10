@@ -161,6 +161,9 @@
 <script>
 import axios from 'axios';
 
+// URL del backend (person-crud-api-spring-boot). Se puede cambiar con VUE_APP_API_URL en un archivo .env
+const API_URL = process.env.VUE_APP_API_URL || 'http://localhost:8080';
+
 export default {
   name: "RegistroPersona",
 
@@ -236,7 +239,7 @@ export default {
         correoElectronico: this.nuevoRegistro.correoElectronico,
       }
       axios
-        .post("http://localhost:8080/person/crear", registro)
+        .post(`${API_URL}/person/crear`, registro)
         .then(response => {
           console.log("registro registrado: " + response);
           this.listarRegistros();
@@ -259,7 +262,7 @@ export default {
         correoElectronico: this.nuevoRegistro.correoElectronico,
       }
       axios
-        .put("http://localhost:8080/person/actualizar", registroActualizado)
+        .put(`${API_URL}/person/actualizar`, registroActualizado)
         .then(response => {
           console.log("registro actualizado: " + response);
           this.listarRegistros();
@@ -290,7 +293,7 @@ export default {
     listarRegistros() {
       this.loading = true;
       axios
-        .get(`http://localhost:8080/person/listar`)
+        .get(`${API_URL}/person/listar`)
         .then( response  => {
           this.listaDeRegistros = response.data;
           this.loading = false;
@@ -316,7 +319,7 @@ export default {
     */
     eliminarRegistro(id) {
       axios
-        .delete(`http://localhost:8080/person/eliminar/${id}`)
+        .delete(`${API_URL}/person/eliminar/${id}`)
         .then(() => {
           this.dialogoEliminar = false;
           this.listarRegistros();
